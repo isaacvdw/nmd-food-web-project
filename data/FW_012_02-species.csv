@@ -1,0 +1,79 @@
+Specie,Kingdom,Role,Degree,Sum(connections strength),Networks presence
+"Aeolosoma sp1 FW_012_02","Animals","Prey",10,10,1
+"Aeolosoma sp1 FW_012_02","Animals","Predator",8,8,1
+"Ajax longipes","Animals","Predator",6,6,1
+"Amphinemura wui","Animals","Predator",4,4,1
+"Anchytarsus bicolor","Animals","Predator",4,4,1
+"Baetis","Animals","Predator",10,10,2
+"Conchapelopia","Animals","Predator",1,1,1
+"Conchapelopia","Animals","Prey",1,1,1
+"Crayfish","Animals","Predator",4,4,2
+"Cricotopus","Animals","Predator",7,7,1
+"Dicranota","Animals","Predator",2,2,1
+"Diplectrona modesta","Animals","Predator",5,5,2
+"Dixella","Animals","Predator",5,5,1
+"Dolophilodes","Animals","Predator",3,3,1
+"Ectopria thoracica","Animals","Predator",15,15,2
+"Epeorus dispar","Animals","Predator",15,15,2
+"Eukieffidrella pseudomontana","Animals","Predator",2,2,1
+"Fatigia pele","Animals","Predator",3,3,1
+"Hexatoma sp1 FW_012_02","Animals","Predator",4,4,1
+"Hudsonimya","Animals","Predator",1,1,1
+"Leuctra","Animals","Predator",6,6,1
+"Leuctra","Animals","Prey",2,2,1
+"Oligo Lumbr. Blue","Animals","Predator",4,4,1
+"Oligo Lumbr. Blue","Animals","Prey",2,2,1
+"Oligo. Lumbr. Pink","Animals","Predator",3,3,1
+"Oligo. Lumbr. Pink","Animals","Prey",2,2,1
+"Ophiogomphus","Animals","Predator",2,2,1
+"Paraleptophelebia","Animals","Predator",2,2,1
+"Pentaneuri sp1 FW_012_02","Animals","Predator",3,3,1
+"Pentaneuri sp1 FW_012_02","Animals","Prey",1,1,1
+"Pericoma","Animals","Predator",4,4,1
+"Pilaria","Animals","Predator",2,2,1
+"Polycentropus maculatus","Animals","Predator",1,1,1
+"Salamander","Animals","Predator",6,6,2
+"Stenelmis","Animals","Predator",6,6,1
+"Tallaperla maria","Animals","Predator",4,4,2
+"Tanyderid","Animals","Predator",3,3,1
+"Terrestrial bugs","Animals","Prey",2,2,1
+"Tipula","Animals","Predator",2,2,1
+"Wormaldia moesta","Animals","Predator",1,1,1
+"Wormaldia moesta","Animals","Prey",2,2,1
+"Achnanthes inflata var. elata","Plants","Prey",3,3,1
+"Achnanthes lanceolata","Plants","Prey",3,3,6
+"Achnanthes linearis","Plants","Prey",2,2,6
+"Achnanthes minutissima","Plants","Prey",5,5,5
+"Auodinella hermanii","Plants","Prey",1,1,1
+"Diatoma heimale","Plants","Prey",1,1,14
+"Eunotia meisteri","Plants","Prey",1,1,1
+"Gomphonema tennuellum","Plants","Prey",1,1,1
+"Navicula mutica","Plants","Prey",1,1,1
+"Rhoicosphenia curvata","Plants","Prey",4,4,14
+"Terrestrial plants","Plants","Prey",22,22,1
+"Ulothrix","Plants","Prey",2,2,6
+"Unidentified sp1 FW_012_02","Plants","Prey",32,32,1
+"Unidentified sp2 FW_012_02","Plants","Prey",1,1,1
+"Blue Green algae","Bacteria","Prey",3,3,1
+"Calothrix","Bacteria","Prey",3,3,4
+"Synechoccus","Bacteria","Prey",1,1,1
+"Marssoniella","Protozoa","Prey",2,2,1
+"Cocconeis placentula","Chromista","Prey",4,4,4
+"Cymbella kappi","Chromista","Prey",2,2,3
+"Cymbella mulleri","Chromista","Prey",1,1,2
+"Epithemia turgida","Chromista","Prey",1,1,4
+"Eunotia pectinalis","Chromista","Prey",5,5,3
+"Fragilaria vaucheriae","Chromista","Prey",6,6,13
+"Frustulia rhomboides","Chromista","Prey",3,3,15
+"Gomphoneis herculeana","Chromista","Prey",2,2,12
+"Gomphonema accuminatum","Chromista","Prey",1,1,3
+"Gomphonema angustatum","Chromista","Prey",1,1,8
+"Gomphonema intricatum","Chromista","Prey",1,1,2
+"Navicula avenacea","Chromista","Prey",2,2,15
+"Navicula cryptocephala","Chromista","Prey",1,1,10
+"Navicula sp1 FW_012_02","Chromista","Prey",3,3,1
+"Pinnularia viridis","Chromista","Prey",1,1,4
+"Rhopalodia","Chromista","Prey",1,1,1
+"Surirella brebbisonii","Chromista","Prey",1,1,1
+"Surirella elegans","Chromista","Prey",1,1,5
+"Synedra ulna","Chromista","Prey",1,1,16
