@@ -1,9 +1,9 @@
 import pandas as pd
 
 # ── CONFIGURATION ──────────────────────────────────────────────────────────
-RAW_MATRIX_PATH = 'data/FW_006.csv'          # The one with just numbers
-SPECIES_INFO_PATH = 'data/FW_006-species.csv' # The one with "Specie", "Role", etc.
-OUTPUT_PATH = 'data/FW_006_NAMED.csv'        # The new file it will create
+RAW_MATRIX_PATH = 'data/FW_005.csv'          # The one with just numbers
+SPECIES_INFO_PATH = 'data/FW_005-species.csv' # The one with "Specie", "Role", etc.
+OUTPUT_PATH = 'data/FW_005_NAMED.csv'        # The new file it will create
 
 def rebuild_rectangular_matrix():
     # 1. Load the species info
