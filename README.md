@@ -8,13 +8,13 @@ file structure
     |- FW_008-species.csv (contains the adjacency matrix of the predators and prey for Carribean)
     |- FW_003_NAMED.csv (contains the species names and classifications for Angola)
     |- FW_003-species.csv (contains the adjacency matrix of the predators and prey for Angola)
-|- food_web.ipynb (analysis using normal directed graph)
-|- food_web_tiered.ipynb (Analysis using tiered graphs)
-|- food_web_tiered - Copy.ipynb (Analysis using tiered graphs + 3D visualisation)
-|- research.py 
-    (null model research comparing small number of parameters: "connectance",
-        "mean_predator_degree", "mean_prey_degree", "predator_degree_var", "prey_degree_var")
-|- research_2.py --- most updated for the null model research
+    |- FW_006.csv (contains the species names and classifications for gulf of Mexico)
+|- /cascade_model_experiments (simple cascade model)
+    |- full_extinct_cascade.py (simulates the removal of all species randomly)
+    |- simple_cascade_removal.py (simulates removal of random x number of species with x as input)
+    |- simple_cascade_specific.py (simulates removal of species from specific tiers as input)
+|- /null_models
+    |- research_2.py --- most updated for the null model research
     (null model research comparing the parameters: 
         nestedness_nodf: nestedness (0–100)
         h2_specialisation: H2' (0 = no specialisation, 1 = perfect)
@@ -24,8 +24,12 @@ file structure
         robustness_r50: prey fraction remaining when 50 % predators lost
         niche_overlap_mean: mean Pianka overlap across predator pairs
     )
+|- food_web.ipynb (analysis using normal directed graph)
+|- food_web_tiered.ipynb (Analysis using tiered graphs)
+|- food_web_tiered - Copy.ipynb (Analysis using tiered graphs + 3D visualisation)
 |- tiered_species_removal.py (species removal based on GLV and also visualisation using 
    tiered network)
+|- GLV_species_removal.oy (simulates GLV species removal)
 
 dependencies needed:
 - pandas
@@ -33,14 +37,3 @@ dependencies needed:
 - matplotlib
 - numpy
 - seaborn
-
-
-FoodWebs chosen for comparison:
-- FW008
-- FW003
-
-TODO:
-- fix the logic that all species are stable (no extinctions in the initial foodweb)
-- do the analysis for the null model research
-- make it clearer as to what tiers (basal and apex predators) are affected after a species is removed
-- can change color scheme to species extinct because of removal and species that have already been extinct
