@@ -27,6 +27,7 @@ Metrics
 - Niche overlap (Pianka, mean across predator pairs)
 """
 
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -328,6 +329,12 @@ METRIC_LABELS = {
 }
 
 
+def ensure_parent_dir_exists(path: str) -> None:
+    directory = os.path.dirname(path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+
 def plot_null_distributions(
     obs: Metrics,
     null_results: Dict[str, List[float]],
@@ -377,150 +384,12 @@ def plot_null_distributions(
 
     plt.tight_layout()
     if save_path:
+        ensure_parent_dir_exists(save_path)
         fig.savefig(save_path, dpi=150, bbox_inches="tight")
         print(f"  → plot saved: {save_path}")
     else:
         plt.show()
     plt.close(fig)
-
-
-# ──────────────────────────────────────────────
-# 7.  ECOLOGICAL INTERPRETATION
-# ──────────────────────────────────────────────
-
-def interpret(obs: Metrics, summary: pd.DataFrame, null_label: str) -> str:
-    """
-    Produce a plain-text ecological interpretation of the results.
-    """
-    lines: List[str] = []
-    lines.append(f"\n{'='*70}")
-    lines.append(f"ECOLOGICAL INTERPRETATION  –  {null_label}")
-    lines.append(f"{'='*70}")
-
-    def sig(metric: str, direction: str = "upper") -> bool:
-        row = summary[summary.metric == metric]
-        if row.empty:
-            return False
-        p = row[f"p_{direction}"].values[0]
-        return p < 0.05
-
-    def z_val(metric: str) -> float:
-        row = summary[summary.metric == metric]
-        return row["z_score"].values[0] if not row.empty else np.nan
-
-    # ── Nestedness ─────────────────────────────────────────────────────────
-    z_nest = z_val("nestedness_nodf")
-    if sig("nestedness_nodf", "upper"):
-        lines.append(
-            f"\n● NESTEDNESS (NODF = {obs.nestedness_nodf:.1f}, z = {z_nest:.2f}, p < 0.05):\n"
-            "  The network is significantly MORE nested than expected by chance.\n"
-            "  Specialist predators tend to consume subsets of the prey taken by\n"
-            "  generalists — a pattern consistent with core–periphery habitat\n"
-            "  structure or asymmetric predator body-size hierarchies."
-        )
-    elif sig("nestedness_nodf", "lower"):
-        lines.append(
-            f"\n● NESTEDNESS (NODF = {obs.nestedness_nodf:.1f}, z = {z_nest:.2f}, p < 0.05):\n"
-            "  The network is significantly LESS nested than chance — consistent\n"
-            "  with niche partitioning or competitive exclusion among predators."
-        )
-    else:
-        lines.append(
-            f"\n● NESTEDNESS (NODF = {obs.nestedness_nodf:.1f}, z = {z_nest:.2f}, n.s.):\n"
-            "  Nestedness does not deviate from the null expectation."
-        )
-
-    # ── H2' specialisation ─────────────────────────────────────────────────
-    z_h2 = z_val("h2_specialisation")
-    if sig("h2_specialisation", "upper"):
-        lines.append(
-            f"\n● H2′ SPECIALISATION ({obs.h2_specialisation:.3f}, z = {z_h2:.2f}, p < 0.05):\n"
-            "  Interactions are more specialised than random — predators use a\n"
-            "  smaller subset of available prey than expected from their marginal\n"
-            "  abundances.  Consider whether prey are genuinely rare or whether\n"
-            "  dietary data under-samples rare links (sampling artefact)."
-        )
-    else:
-        lines.append(
-            f"\n● H2′ SPECIALISATION ({obs.h2_specialisation:.3f}, z = {z_h2:.2f}, n.s.):\n"
-            "  Interaction diversity is consistent with random linking given\n"
-            "  the observed marginal diet-breadths."
-        )
-
-    # ── Degree variance ────────────────────────────────────────────────────
-    z_pdv = z_val("predator_degree_var")
-    z_ydv = z_val("prey_degree_var")
-    lines.append(
-        f"\n● DEGREE VARIANCE:\n"
-        f"  Predator deg. var = {obs.predator_degree_var:.2f}  (z = {z_pdv:.2f})\n"
-        f"  Prey    deg. var = {obs.prey_degree_var:.2f}  (z = {z_ydv:.2f})\n"
-        "  High predator degree variance indicates heterogeneous diet breadths\n"
-        "  (a few generalists, many specialists), amplifying extinction risk\n"
-        "  cascades if generalists are lost first."
-    )
-
-    # ── C-score ────────────────────────────────────────────────────────────
-    z_cs = z_val("c_score")
-    if sig("c_score", "upper"):
-        lines.append(
-            f"\n● C-SCORE ({obs.c_score:.2f}, z = {z_cs:.2f}, p < 0.05):\n"
-            "  More checkerboard units than random → predators partition prey\n"
-            "  space more than expected (competitive exclusion signal)."
-        )
-    elif sig("c_score", "lower"):
-        lines.append(
-            f"\n● C-SCORE ({obs.c_score:.2f}, z = {z_cs:.2f}, p < 0.05):\n"
-            "  Fewer checkerboard units than random → predators co-occur on\n"
-            "  prey more than expected (aggregation / facilitation signal)."
-        )
-    else:
-        lines.append(
-            f"\n● C-SCORE ({obs.c_score:.2f}, z = {z_cs:.2f}, n.s.):\n"
-            "  Prey co-occurrence among predators is consistent with the null."
-        )
-
-    # ── Robustness ─────────────────────────────────────────────────────────
-    z_rob = z_val("robustness_r50")
-    lines.append(
-        f"\n● ROBUSTNESS R50 ({obs.robustness_r50:.3f}, z = {z_rob:.2f}):\n"
-        "  On average, {:.0f} % of prey species remain when half the predators\n"
-        "  are removed.  Values above the null imply prey are well-buffered\n"
-        "  by predator redundancy; values below suggest fragile dependencies.".format(
-            obs.robustness_r50 * 100
-        )
-    )
-
-    # ── Niche overlap ──────────────────────────────────────────────────────
-    z_no = z_val("niche_overlap_mean")
-    if sig("niche_overlap_mean", "upper"):
-        lines.append(
-            f"\n● NICHE OVERLAP ({obs.niche_overlap_mean:.3f}, z = {z_no:.2f}, p < 0.05):\n"
-            "  Higher overlap than random → predators share diet more than\n"
-            "  expected.  This may indicate shared habitat use, prey aggregation,\n"
-            "  or under-sampling of rare prey items (apparent overlap artefact)."
-        )
-    else:
-        lines.append(
-            f"\n● NICHE OVERLAP ({obs.niche_overlap_mean:.3f}, z = {z_no:.2f}, n.s.):\n"
-            "  Diet overlap is consistent with the null model."
-        )
-
-    # ── Sampling caveat ────────────────────────────────────────────────────
-    lines.append(
-        "\n── SAMPLING NOTE ─────────────────────────────────────────────────────\n"
-        "  Diet studies based on stomach contents or DNA metabarcoding can\n"
-        "  miss rare prey, inflating H2′ and niche overlap.  If n_samples\n"
-        "  per predator is low (< 20), treat specialist / high-overlap signals\n"
-        "  with caution before ecological inference.\n"
-        "──────────────────────────────────────────────────────────────────────"
-    )
-
-    return "\n".join(lines)
-
-
-# ──────────────────────────────────────────────
-# 8.  MAIN PIPELINE
-# ──────────────────────────────────────────────
 
 if __name__ == "__main__":
     A = B          # binary structure
@@ -536,6 +405,9 @@ if __name__ == "__main__":
         "Shuffle (fixed connectance)":   lambda M: null_model_shuffle(M),
         "Swap (fixed marginals)":        lambda M: null_model_swap(M, n_swaps=10_000),
     }
+
+    os.makedirs("figures", exist_ok=True)
+    os.makedirs("results", exist_ok=True)
 
     all_summaries: List[pd.DataFrame] = []
 
@@ -559,10 +431,6 @@ if __name__ == "__main__":
             null_label=label,
             save_path=f"figures/null_{safe_label}.png",
         )
-
-        # Step 5: ecological interpretation
-        interp = interpret(obs, summary, null_label=label)
-        print(interp)
 
     # ── Combined summary table ─────────────────────────────────────────────
     combined = pd.concat(all_summaries, ignore_index=True)
